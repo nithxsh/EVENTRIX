@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Utils } from 'handlebars'; // Keep existing if any, but actually for this file I'll just add the import. Wait, I should use multi_replace for this file if imports are far from usage.
+import { CheckCircle, Linkedin, Download, ShieldCheck } from 'lucide-react';
 import { API_URL } from '../config';
 
 
