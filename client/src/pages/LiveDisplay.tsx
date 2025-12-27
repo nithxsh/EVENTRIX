@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Users, Trophy, School, Activity } from 'lucide-react';
+import { API_URL } from '../config';
+
 
 interface LivePulseData {
     title: string;
@@ -23,7 +25,7 @@ const LiveDisplay: React.FC = () => {
     useEffect(() => {
         const fetchPulse = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/events/${id}/pulse`);
+                const res = await axios.get(`${API_URL}/api/events/${id}/pulse`);
                 const pulseData: LivePulseData = res.data;
 
                 if (pulseData.totalRegistrations > prevCount && prevCount !== 0) {

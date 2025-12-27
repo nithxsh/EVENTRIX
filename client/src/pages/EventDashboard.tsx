@@ -10,6 +10,8 @@ import { SimpleRichEditor } from '../components/SimpleRichEditor';
 // Icons using Lucide React
 import { Download, FileSpreadsheet, Settings, X, Link, Workflow, LayoutDashboard, ExternalLink, LayoutTemplate, Users, CheckSquare, Square, Search, RefreshCw, ChevronUp, ChevronDown, CheckCircle2, ClipboardCheck, Clipboard, ShieldCheck, ShieldAlert, Users2, Zap, MonitorPlay } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import { API_URL } from '../config';
+
 
 const EventDashboard: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -67,7 +69,7 @@ const EventDashboard: React.FC = () => {
 
     useEffect(() => {
         // Fetch user info
-        axios.get('http://localhost:5000/auth/me', { withCredentials: true })
+        axios.get(`${API_URL}/auth/me`, { withCredentials: true })
             .then(res => setUser(res.data))
             .catch(err => console.error("Auth error:", err));
 
@@ -76,7 +78,7 @@ const EventDashboard: React.FC = () => {
     }, [id]);
 
     const fetchEvent = () => {
-        axios.get(`http://localhost:5000/api/events/${id}`)
+        axios.get(`${API_URL}/api/events/${id}`)
             .then(res => {
                 setEvent(res.data);
                 setFormUrl(res.data.registrationFormUrl || '');
@@ -123,7 +125,7 @@ The {{Event}} Team`);
 
     const fetchRegistrations = () => {
         setLoadingRegs(true);
-        axios.get(`http://localhost:5000/api/events/${id}/registrations`, { withCredentials: true })
+        axios.get(`${API_URL}/api/events/${id}/registrations`, { withCredentials: true })
             .then(res => setRegistrations(res.data))
             .catch(err => console.error("Regs error:", err))
             .finally(() => setLoadingRegs(false));
@@ -148,7 +150,7 @@ The {{Event}} Team`);
             registrationLimit: regLimit === '' ? undefined : Number(regLimit)
         };
 
-        axios.put(`http://localhost:5000/api/events/${id}`, updates, { withCredentials: true })
+        axios.put(`${API_URL}/api/events/${id}`, updates, { withCredentials: true })
             .then(res => {
                 setEvent(res.data);
                 alert("Settings updated!");
@@ -170,7 +172,7 @@ The {{Event}} Team`);
         setCertLayout(layout);
 
         // Persist immediately to prevent loss
-        axios.put(`http://localhost:5000/api/events/${id}`, { certificateLayout: layout, collegeName }, { withCredentials: true })
+        axios.put(`${API_URL}/api/events/${id}`, { certificateLayout: layout, collegeName }, { withCredentials: true })
             .then(res => {
                 setEvent(res.data);
                 alert("Visual Protocol Synchronized!");
@@ -214,7 +216,7 @@ The {{Event}} Team`);
         if (uploadFile) formData.append('recipientFile', uploadFile);
 
         try {
-            const res = await axios.post(`http://localhost:5000/api/events/${id}/email`, formData, {
+            const res = await axios.post(`${API_URL}/api/events/${id}/email`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
@@ -305,7 +307,7 @@ The {{Event}} Team`);
                                 <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Active Admin</span>
                                 <span className="text-sm font-bold">{user.displayName}</span>
                             </div>
-                            <a href="http://localhost:5000/auth/logout" className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-red-400 border border-red-400/20 hover:bg-red-400/10 rounded-xl transition-all">
+                            <a href={`${API_URL}/auth/logout`} className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-red-400 border border-red-400/20 hover:bg-red-400/10 rounded-xl transition-all">
                                 Terminate Session
                             </a>
                         </div>

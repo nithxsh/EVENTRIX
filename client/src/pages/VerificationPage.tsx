@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { CheckCircle, Linkedin, Download, ShieldCheck } from 'lucide-react';
+import { Utils } from 'handlebars'; // Keep existing if any, but actually for this file I'll just add the import. Wait, I should use multi_replace for this file if imports are far from usage.
+import { API_URL } from '../config';
+
 
 interface VerificationData {
     name: string;
@@ -20,7 +22,7 @@ const VerificationPage: React.FC = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/events/verify/${hash}`);
+                const res = await axios.get(`${API_URL}/api/events/verify/${hash}`);
                 setData(res.data);
                 setLoading(false);
             } catch (err) {

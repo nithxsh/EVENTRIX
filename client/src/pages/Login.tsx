@@ -9,8 +9,11 @@ const Login: React.FC = () => {
     const [step, setStep] = useState<'input' | 'verify'>('input');
     const [loading, setLoading] = useState(false);
 
+    import { API_URL } from '../config';
+
     // Explicitly define the base URL for frontend API calls
-    const API_URL = 'http://localhost:5000';
+    // const API_URL = 'http://localhost:5000'; // Moved to config
+
 
 
 
